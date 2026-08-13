@@ -39,11 +39,14 @@ import 'provider/reflection_provider.dart';
 import 'services/duo_questions_service.dart';
 // import 'package:device_preview/device_preview.dart';
 
+/// Singleton ChangeNotifier that wraps Firebase Auth state changes.
+/// Used by GoRouter's [refreshListenable] so the router re-evaluates its
+/// redirect guards whenever the user logs in or out.
 class AppStateNotifier extends ChangeNotifier {
   static final AppStateNotifier _instance = AppStateNotifier._internal();
   factory AppStateNotifier() => _instance;
   static AppStateNotifier get instance => _instance;
-  
+
   AppStateNotifier._internal() {
     FirebaseAuth.instance.authStateChanges().listen((user) {
       notifyListeners();
@@ -57,30 +60,36 @@ Future<void> _initAdsAndroid() async {
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Lock to portrait — the card-swipe UI is portrait-only.
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
 
+  // Hide system UI bars for a full-screen immersive experience.
   SystemChrome.setEnabledSystemUIMode(
-    SystemUiMode.immersiveSticky, // or SystemUiMode.immersive
+    SystemUiMode.immersiveSticky,
   );
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
+  // promptUser: false — we don't ask for notification permission at launch.
+  // Request it contextually (e.g. when the user enables a streak reminder).
   await NotificationService.init(promptUser: false);
 
-  // Register background/foreground tap handler for all notification actions.
-  // Must be called after AwesomeNotifications().initialize() and before runApp.
+  // Register the tap handler before runApp so cold-start notification taps are caught.
+  // Must be called after AwesomeNotifications().initialize() (done inside NotificationService.init).
   await AwesomeNotifications().setListeners(
     onActionReceivedMethod: NotificationService.onNotificationTapMethod,
   );
 
   await Hive.initFlutter();
-  Hive.registerAdapter(QuestionAdapter());
-  // Pre-open the duo questions cache box so it's ready when Duo Mode is entered.
+  Hive.registerAdapter(QuestionAdapter()); // QuestionAdapter is generated — do not edit questions_model.g.dart by hand
+  // Open the Circle mode question cache box at startup so it's available immediately
+  // when the user enters duo mode, without a blocking async open at that point.
   await Hive.openBox<Question>(DuoQuestionsService.duoCacheBoxName);
 
   if (Platform.isAndroid) {
@@ -128,12 +137,15 @@ class _MyAppState extends ConsumerState<MyApp> {
   Widget build(BuildContext context) {
     final themeState = ref.watch(themeProvider);
 
+    // Watch auth state changes to react to login and logout events.
     ref.listen<AsyncValue<User?>>(authStateProvider, (previous, next) {
       final previousUser = previous?.whenOrNull(data: (user) => user);
       final currentUser = next.whenOrNull(data: (user) => user);
 
       if (previousUser != null && currentUser == null) {
-        // Logout — clear all provider state.
+        // User just logged out — invalidate all user-specific providers so stale
+        // data from the previous user's session doesn't bleed into the next one.
+        // The small delay avoids calling setState during a build frame.
         Future.delayed(Duration(milliseconds: 100), () {
           if (mounted) {
             ref.invalidate(userProfileProvider);
@@ -143,10 +155,11 @@ class _MyAppState extends ConsumerState<MyApp> {
           }
         });
       } else if (previousUser == null && currentUser != null) {
-        // Login — load reflections from Firestore.
+        // User just logged in — load their reflections from Firestore.
         ref.read(reflectionProvider.notifier).load();
       }
 
+      // Trigger GoRouter to re-check redirect guards (login/logout routing).
       _router.refresh();
     });
 
@@ -169,13 +182,14 @@ class _MyAppState extends ConsumerState<MyApp> {
       themeMode: ThemeMode.light,
       routerConfig: _router,
       builder: (context, child) {
-        // child = DevicePreview.appBuilder(context, child);
-        // Wrap with a background container so iOS rounded-corner areas and
-        // system edge insets always show the app colour instead of white.
         return Container(
+          // Fill system edge insets (notch, rounded corners) with the scaffold
+          // background so there's no white flash during navigation transitions.
           color: Theme.of(context).scaffoldBackgroundColor,
           child: MediaQuery(
             data: MediaQuery.of(context).copyWith(
+              // Clamp text scale to 1.0–1.3 so the UI doesn't break at very
+              // large accessibility text sizes, while still respecting user prefs.
               textScaleFactor: MediaQuery.of(context).textScaleFactor.clamp(1.0, 1.3),
             ),
             child: child!,

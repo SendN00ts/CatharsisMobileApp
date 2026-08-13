@@ -10,6 +10,8 @@ class DuoSessionService {
 
   // ── Session code ────────────────────────────────────────────────────────────
 
+  /// Generates a random 6-character session code used as the Firestore document ID.
+  /// Characters that look similar (I, O, 0, 1) are excluded to reduce user entry errors.
   static String generateCode() {
     const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
     final rng = Random.secure();
@@ -194,6 +196,10 @@ class DuoSessionService {
 
   // ── Stream ──────────────────────────────────────────────────────────────────
 
+  /// Returns a real-time stream of the session document.
+  /// All active players listen to this — when any player writes to Firestore
+  /// (submitting a reflection, voting, skipping), all other clients update instantly.
+  /// Returns null when the document doesn't exist (e.g. invalid code).
   static Stream<DuoSession?> streamSession(String code) {
     return _db
         .collection(_col)
@@ -262,6 +268,13 @@ class DuoSessionService {
 
   // ── Past sessions ───────────────────────────────────────────────────────────
 
+  /// Fetches all completed sessions the user participated in.
+  ///
+  /// Two queries are needed (host + guest) because Firestore doesn't support
+  /// OR queries on different fields. Results are merged using a map (keyed by
+  /// session code) to deduplicate any edge cases.
+  ///
+  /// Sessions the user has hidden (soft-deleted) are filtered out client-side.
   static Future<List<DuoSession>> fetchPastSessions(String uid,
       {int limit = 30}) async {
     final hostSnap = await _db
@@ -290,6 +303,11 @@ class DuoSessionService {
 
   // ── Hide session ─────────────────────────────────────────────────────────────
 
+  /// Soft-deletes a session for one user by adding their UID to [hiddenBy].
+  ///
+  /// The Firestore document is NOT deleted — only filtered out of this user's
+  /// history queries. The partner's session history is completely unaffected.
+  /// FieldValue.arrayUnion ensures this is idempotent (safe to call twice).
   static Future<void> hideSession({
     required String code,
     required String uid,

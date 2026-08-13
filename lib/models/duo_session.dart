@@ -320,8 +320,10 @@ class DuoSession {
         'maxPlayers': maxPlayers,
         'participants': participants,
         'playerSkipsLeft': playerSkipsLeft,
-        // Store as a map keyed by string index so Firestore dot-notation
-        // field updates (e.g. "cards.2.hostMatchChoice") work correctly.
+        // Cards are stored as a Firestore map keyed by string index ("0", "1", "2"…)
+        // rather than an array. This allows atomic field-level updates using dot notation
+        // (e.g. "cards.2.hostMatchChoice") without rewriting the entire array,
+        // which is critical for real-time multi-user concurrency.
         'cards': {
           for (int i = 0; i < cards.length; i++) '$i': cards[i].toMap(),
         },

@@ -11,9 +11,21 @@ import 'package:crypto/crypto.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/services.dart';
 
+/// Handles all authentication flows: Google, Apple (iOS/Android/web), and email/password.
+///
+/// Apple Sign-In on Android is the most complex path. Android doesn't natively support
+/// Apple's authentication sheet, so there are two approaches tried in sequence:
+///   1. Firebase's signInWithProvider (native Android WebView flow) — works on most devices.
+///   2. Fallback: sign_in_with_apple package using a web redirect via the Apple Service ID.
+///      This requires the Service ID and redirect URI configured in the Apple Developer portal.
+///
+/// On sign-out, all local user data (Hive boxes, SharedPreferences user keys) is cleared
+/// so the next user who signs in starts with a clean slate.
 class AuthService {
   AuthService();
-  
+
+  // Apple Sign-In on Android requires a separate Apple Service ID and a Firebase-hosted
+  // redirect URI. Both must be configured in Apple Developer Portal → Services → Sign in with Apple.
   static const String _appleAndroidServiceId = 'com.catharsis.cards.androidappleauth';
   static const String _appleAndroidRedirectUri =
       'https://catharsiscards.firebaseapp.com/__/auth/handler';
@@ -52,6 +64,9 @@ class AuthService {
   }
 
   // --- Helpers ---
+  /// Called after every successful sign-in. For brand-new users, clears the
+  /// welcome-seen flag (so the welcome screen shows) and attempts to set a
+  /// display name from the identity provider if Firebase doesn't have one yet.
   Future<void> _handleFirstLogin(UserCredential result) async {
     if (result.additionalUserInfo?.isNewUser ?? false) {
       final prefs = await SharedPreferences.getInstance();
@@ -70,6 +85,8 @@ class AuthService {
     }
   }
 
+  /// Signs in with Google. Forces the account picker on every call (signOut first)
+  /// so the user can switch accounts rather than auto-resuming the last session.
   Future<UserCredential?> signInWithGoogle() async {
     try {
       await _googleSignIn.signOut(); // force account picker
@@ -380,6 +397,9 @@ class AuthService {
     print('Signed out from Firebase');
   }
 
+  /// Clears user-specific SharedPreferences keys on sign-out.
+  /// Theme preferences are intentionally preserved so the app looks the same
+  /// if the user signs back in — they shouldn't have to re-pick their theme.
   Future<void> _clearUserDataExceptTheme(String userId) async {
     try {
       final prefs = await SharedPreferences.getInstance();

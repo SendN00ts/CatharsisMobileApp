@@ -1,93 +1,346 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Catharsis Cards — Privacy Policy</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy — Catharsis Cards</title>
+  <meta name="description" content="Privacy Policy for the Catharsis Cards app." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
   <style>
-    :root { --ink:#18160e; --muted:#5d5a4f; --bg:#fff; --accent:#0d6efd; }
-    html,body { margin:0; padding:0; background:var(--bg); color:var(--ink); }
-    body { font:16px/1.6 "Helvetica Neue", Helvetica, Arial, system-ui, -apple-system, sans-serif; }
-    .wrap { max-width:820px; margin:40px auto; padding:0 20px 60px; }
-    h1 { font-size:28px; margin:0 0 8px; -webkit-text-stroke: var(--ink); }
-    .updated { color:var(--muted); margin:0 0 24px; }
-    h2 { font-size:20px; margin:28px 0 10px; -webkit-text-stroke: var(--ink); }
-    p { margin:0 0 14px; }
-    ul { margin:0 0 14px 20px; }
-    a { color:var(--accent); text-decoration:underline; }
-    .footer { margin-top:36px; font-size:14px; color:var(--muted); }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #F7F3EA;
+      --text:      #2C2B28;
+      --text-soft: #6B6760;
+      --border:    rgba(44,43,40,0.10);
+      --radius:    12px;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(247,243,234,0.88);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    nav a.logo { display: flex; align-items: center; text-decoration: none; }
+    nav a.logo img { height: 22px; width: auto; }
+    nav a.back {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-soft);
+      text-decoration: none;
+      letter-spacing: 0.02em;
+      transition: color 0.2s;
+    }
+    nav a.back:hover { color: var(--text); }
+
+    .page {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 64px 24px 120px;
+    }
+
+    .header {
+      margin-bottom: 56px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid var(--border);
+    }
+    .header .label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-soft);
+      margin-bottom: 16px;
+    }
+    .header h1 {
+      font-size: clamp(28px, 5vw, 42px);
+      font-weight: 300;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      color: var(--text);
+      margin-bottom: 20px;
+    }
+    .header .meta { font-size: 13px; color: var(--text-soft); }
+
+    section { margin-bottom: 48px; }
+
+    section h2 {
+      font-size: 18px;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      color: var(--text);
+      margin-bottom: 16px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+    section p { color: var(--text); margin-bottom: 12px; }
+    section p:last-child { margin-bottom: 0; }
+
+    section ul { list-style: none; padding: 0; margin: 0; }
+    section ul li {
+      position: relative;
+      padding-left: 18px;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+    section ul li::before { content: '–'; position: absolute; left: 0; color: var(--text-soft); }
+    section ul li:last-child { margin-bottom: 0; }
+
+    .table-wrap {
+      overflow-x: auto;
+      margin-top: 16px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+    }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    thead th {
+      background: rgba(44,43,40,0.05);
+      font-weight: 500;
+      text-align: left;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+    tbody td {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    tbody tr:last-child td { border-bottom: none; }
+
+    .contact-box {
+      background: rgba(44,43,40,0.04);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px 32px;
+      margin-top: 16px;
+      text-align: center;
+    }
+    .contact-box p { font-size: 14px; color: var(--text-soft); margin-bottom: 12px; }
+    .contact-box a {
+      display: inline-block;
+      color: var(--text);
+      font-weight: 500;
+      text-decoration: none;
+      border-bottom: 1px solid var(--text);
+      padding-bottom: 1px;
+      transition: opacity 0.2s;
+    }
+    .contact-box a:hover { opacity: 0.6; }
+
+    footer {
+      margin-top: 80px;
+      padding-top: 32px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    footer img { height: 18px; width: auto; opacity: 0.5; }
+    footer p { font-size: 12px; color: var(--text-soft); }
+
+    a { color: inherit; }
+
+    @media (max-width: 600px) {
+      .page { padding: 40px 20px 80px; }
+      .header { margin-bottom: 40px; }
+      .contact-box { padding: 20px; }
+      footer { flex-direction: column; align-items: flex-start; }
+    }
   </style>
 </head>
 <body>
-  <main class="wrap">
+
+<nav>
+  <a class="logo" href="https://catharsis.cards">
+    <img src="https://catharsis.cards/assets/images/catharsis_word_only.png" alt="Catharsis" />
+  </a>
+  <a class="back" href="https://catharsis.cards">← Back to Catharsis</a>
+</nav>
+
+<div class="page">
+
+  <div class="header">
+    <p class="label">Legal</p>
     <h1>Privacy Policy</h1>
-    <p class="updated">Last updated: October 13, 2025</p>
+    <p class="meta">Last updated: August 12, 2026</p>
+  </div>
 
-    <p>Welcome to Catharsis Cards. Your privacy is important to us. This policy explains how we collect, use, and protect your personal information when you use our mobile app and related services.</p>
+  <section>
+    <h2>1. Who We Are</h2>
+    <p>Catharsis Cards is a mindfulness and self-discovery app operated by <strong>WeMadeThisOÜ</strong>, Harju maakond, Tallinn, Kesklinna linnaosa, Järvevana tee 9, 11314, Estonia. This policy explains what personal data we collect, why we collect it, and how it is handled when you use our app.</p>
+    <p>For any privacy-related questions, contact us at <a href="mailto:findyourcatharsis@gmail.com">findyourcatharsis@gmail.com</a>.</p>
+  </section>
 
-    <h2>Who We Are</h2>
-    <p>Catharsis Cards is operated by Catharsis. For any privacy-related inquiries, please contact us at
-      <a href="mailto:findyourcatharsis@gmail.com">findyourcatharsis@gmail.com</a>.
-    </p>
-
-    <h2>1. Information We Collect</h2>
+  <section>
+    <h2>2. Data We Collect</h2>
+    <p>We collect the minimum data necessary to provide the app's features:</p>
     <ul>
-      <li><strong>Account Data:</strong> Email address, username, and optional avatar.</li>
+      <li><strong>Account data</strong> — email address, display name, and optional profile avatar (photo).</li>
+      <li><strong>User-generated content</strong> — personal reflections you write on liked cards, and answers and votes you submit during Circle mode sessions.</li>
+      <li><strong>App activity</strong> — which questions you like or skip, your daily streak count, selected categories, and subscription status.</li>
+      <li><strong>Usage and analytics data</strong> — aggregated, anonymised information about how the app is used, collected via Firebase Analytics (e.g. screens viewed, session length). This does not identify you individually.</li>
+      <li><strong>Advertising identifiers</strong> — if you are on the free tier, Google AdMob may collect your device advertising identifier (IDFA on iOS, GAID on Android) to serve ads. You can opt out of personalised ads in your device settings.</li>
+      <li><strong>Purchase data</strong> — when you subscribe, transaction metadata is processed by Apple App Store or Google Play. We do not receive your full payment details.</li>
     </ul>
+  </section>
 
-    <h2>3. Data Retention</h2>
+  <section>
+    <h2>3. How We Use Your Data</h2>
     <ul>
-      <li><strong>Account Data:</strong> Until deletion of your account or as required by law.</li>
-      <li><strong>Usage Data:</strong> Anonymized and stored up to 24 months.</li>
-      <li><strong>Device Data:</strong> Stored up to 12 months for diagnostics.</li>
-      <li><strong>Account Data:</strong> Retained until deletion of your account or as required by law.</li>
-      <li><strong>Usage Data:</strong> Anonymized and stored for up to 24 months.</li>
-      <li><strong>Device Data:</strong> Stored for up to 12 months for diagnostics and support.</li>
+      <li>To provide and personalise the app experience (saving liked cards, syncing Circle sessions, maintaining your streak).</li>
+      <li>To process and verify your subscription status.</li>
+      <li>To generate AI-powered questions via our server-side integration with OpenAI (see §5).</li>
+      <li>To display relevant advertisements to free-tier users via Google AdMob.</li>
+      <li>To understand how the app is used in aggregate, so we can improve it.</li>
+      <li>To send you local notifications if you enable streak reminders (no marketing push notifications are sent).</li>
     </ul>
+  </section>
 
-    <h2>4. Your Rights</h2>
-    <p>You may access, rectify, delete, or export your data. To exercise these rights, contact us at findyourcatharsis@gmail.com.</p>
-
-    <h2>4. Data Deletion</h2>
-    <p>You can delete your account and associated data through our app’s self-service options. Once deletion is requested, your data will be removed from our systems within 30 days.</p>
-
-    <h2>5. Data Sharing &amp; Third Parties</h2>
+  <section>
+    <h2>4. Legal Basis for Processing (GDPR)</h2>
+    <p>As an EU-based operator registered in Estonia, we process personal data under the following legal bases as defined by the GDPR:</p>
     <ul>
-      <li><strong>Firebase / Google Cloud:</strong> Secure data storage.</li>
-      <li><strong>Analytics Providers:</strong> Aggregated and anonymized usage statistics.</li>
-      <li><strong>Firebase / Google Cloud:</strong> Used for secure data storage and backend services.</li>
-      <li><strong>Analytics Providers:</strong> Aggregated and anonymized usage statistics to improve the app.</li>
-      <li><strong>LLM Provider:</strong> Processes certain user data to enable AI-powered features.</li>
-      <li><strong>Service Providers:</strong> Crash reporting, hosting, and support tools.</li>
+      <li><strong>Contract performance</strong> — processing necessary to provide the services you signed up for (account, subscriptions, Circle mode).</li>
+      <li><strong>Legitimate interests</strong> — anonymised analytics to improve the app, where this does not override your privacy rights.</li>
+      <li><strong>Consent</strong> — advertising identifiers and personalised ads, which you can withdraw at any time via your device settings.</li>
     </ul>
-    <p>All third-party vendors act as data processors on our behalf. We do not sell your personal data to any third parties.</p>
+  </section>
 
-    <h2>6. Security</h2>
-    <p>We implement industry-standard encryption both at rest and in transit to protect your data. While we strive to maintain strong security, no method is completely secure.</p>
+  <section>
+    <h2>5. Third-Party Services</h2>
+    <p>We use the following third-party services to operate the app. Each acts as a data processor on our behalf:</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Service</th>
+            <th>Provider</th>
+            <th>Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Firebase Auth, Firestore, Storage, Analytics</td>
+            <td>Google LLC</td>
+            <td>Authentication, database, file storage, usage analytics</td>
+          </tr>
+          <tr>
+            <td>Google AdMob</td>
+            <td>Google LLC</td>
+            <td>Advertising shown to free-tier users</td>
+          </tr>
+          <tr>
+            <td>Google Play Billing</td>
+            <td>Google LLC</td>
+            <td>Subscription purchase processing (Android)</td>
+          </tr>
+          <tr>
+            <td>Apple App Store / StoreKit</td>
+            <td>Apple Inc.</td>
+            <td>Subscription purchase processing (iOS)</td>
+          </tr>
+          <tr>
+            <td>OpenAI API</td>
+            <td>OpenAI, L.L.C.</td>
+            <td>Server-side AI question generation. Only the requested category and question count are sent — no personal data is transmitted.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="margin-top:16px;">We do not sell your personal data to any third parties.</p>
+  </section>
 
-    <h2>7. International Transfers</h2>
-    <p>We use appropriate safeguards (e.g., Standard Contractual Clauses) when transferring data internationally.</p>
+  <section>
+    <h2>6. Data Retention</h2>
+    <ul>
+      <li><strong>Account and profile data</strong> — retained until you delete your account.</li>
+      <li><strong>User-generated content</strong> (reflections, Circle session answers) — retained until you delete the relevant content or your account.</li>
+      <li><strong>Analytics data</strong> — anonymised and retained for up to 24 months.</li>
+      <li><strong>Subscription status</strong> — stored locally on your device only; cleared if you uninstall the app.</li>
+    </ul>
+  </section>
 
-    <h2>8. Children’s Privacy</h2>
-    <p>Our app is not intended for children under 13. We do not knowingly collect data from minors.</p>
+  <section>
+    <h2>7. Your Rights</h2>
+    <p>Under the GDPR and applicable data protection law, you have the right to:</p>
+    <ul>
+      <li><strong>Access</strong> — request a copy of the personal data we hold about you.</li>
+      <li><strong>Rectification</strong> — correct inaccurate or incomplete data.</li>
+      <li><strong>Erasure</strong> — request deletion of your personal data ("right to be forgotten").</li>
+      <li><strong>Portability</strong> — receive your data in a structured, machine-readable format.</li>
+      <li><strong>Restriction</strong> — ask us to limit how we process your data in certain circumstances.</li>
+      <li><strong>Object</strong> — object to processing based on legitimate interests.</li>
+      <li><strong>Withdraw consent</strong> — for advertising identifiers, opt out via your device settings at any time.</li>
+    </ul>
+    <p>To exercise any of these rights, contact us at <a href="mailto:findyourcatharsis@gmail.com">findyourcatharsis@gmail.com</a>. We will respond within 30 days. You also have the right to lodge a complaint with the Estonian Data Protection Inspectorate (<a href="https://www.aki.ee" target="_blank" rel="noopener">aki.ee</a>).</p>
+  </section>
 
-    <h2>9. Security</h2>
-    <p>We implement industry-standard encryption and controls, but no method is 100% secure.</p>
+  <section>
+    <h2>8. Account Deletion</h2>
+    <p>You can delete your account directly from within the app under Account Settings. Deletion removes your profile, reflections, and associated data from our systems within 30 days.</p>
+    <p>Note: Circle mode session documents in which you participated are not fully removed on deletion — your answers remain visible to the other participants of that session. If you need these removed as well, contact us directly.</p>
+    <p style="margin-top:12px;"><a href="https://catharsisdev.github.io/CatharsisCardsAccountDeletionPage/" style="font-weight:500; text-decoration:underline;">View step-by-step account deletion instructions →</a></p>
+  </section>
 
-    <h2>10. Your Rights</h2>
-    <p>You may access, rectify, delete, or export your data. To exercise these rights, contact us at
-      <a href="mailto:findyourcatharsis@gmail.com">findyourcatharsis@gmail.com</a>.
-    </p>
+  <section>
+    <h2>9. Children's Privacy</h2>
+    <p>The app is available to users aged 13 and over. We do not knowingly collect personal data from children under 13. If you believe a child under 13 has provided us with personal data, please contact us and we will delete it promptly.</p>
+  </section>
 
-    <h2>11. Changes to This Policy</h2>
-    <p>We may update this policy; continued use after changes indicates acceptance.</p>
+  <section>
+    <h2>10. International Data Transfers</h2>
+    <p>Your data may be processed in countries outside the European Economic Area, including the United States, by our third-party service providers (Google, Apple, OpenAI). Where required, we rely on appropriate safeguards such as Standard Contractual Clauses to ensure your data is protected in accordance with GDPR.</p>
+  </section>
 
-    <h2>12. Contact Us</h2>
-    <p>Questions or requests? Email us at
-      <a href="mailto:privacy@catharsiscards.app">findyourcatharsis@gmail.com</a>.
-    </p>
+  <section>
+    <h2>11. Security</h2>
+    <p>We use industry-standard encryption in transit (TLS) and at rest for all data stored with Firebase. Whilst we take reasonable steps to protect your information, no method of transmission or storage is completely secure. If you believe your account has been compromised, contact us immediately.</p>
+  </section>
 
-    <p class="footer">© 2025 Catharsis Cards. All rights reserved.</p>
-  </main>
+  <section>
+    <h2>12. Changes to This Policy</h2>
+    <p>We may update this policy from time to time. When we make material changes, we will update the "Last updated" date at the top of this page. Continued use of the app after changes are posted constitutes acceptance of the revised policy.</p>
+  </section>
+
+  <section>
+    <h2>13. Contact</h2>
+    <p>For any privacy questions, data requests, or concerns:</p>
+    <div class="contact-box">
+      <p>WeMadeThisOÜ — Privacy</p>
+      <a href="mailto:findyourcatharsis@gmail.com">findyourcatharsis@gmail.com</a>
+    </div>
+  </section>
+
+  <footer>
+    <img src="https://catharsis.cards/assets/images/catharsis_word_only.png" alt="Catharsis" />
+    <p>© 2026 Catharsis Cards. All rights reserved.</p>
+  </footer>
+
+</div>
+
 </body>
 </html>

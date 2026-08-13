@@ -2,6 +2,14 @@ import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../questions_model.dart';
 
+/// Generates AI-powered questions by calling the `generateQuestions` Firebase Cloud Function.
+///
+/// The Cloud Function calls the OpenAI API server-side using the OPENAI_API_KEY stored
+/// in the Function's environment variables. The key never ships inside the app binary.
+///
+/// The function accepts { category, count } and returns { questions: [string, ...] }.
+/// Returned strings are cleaned (bullets/numbering stripped) before being wrapped
+/// in Question objects.
 class OpenAIService {
   static Future<List<Question>> generateQuestions({
     required String category,
